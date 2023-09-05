@@ -1,3 +1,8 @@
+flask==2.3.3
+mysql-connector==2.2.9
+python-dotenv==1.0.0
+bcrypt==4.0.1
+
 # Development
 unittest2==1.1.0
 mypy==0.991
