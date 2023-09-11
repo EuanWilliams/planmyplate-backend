@@ -1,17 +1,17 @@
 from typing import Dict, Optional
 
 import bcrypt
-from flask import Blueprint, Response, request, jsonify
+from flask import Blueprint, Response, request
 
-from utils import get_database_connection
+from utils.utils import get_database_connection
 
-user = Blueprint('user', __name__)
+user = Blueprint("user", __name__)
 
 
 def create_user(user_email: str, user_password: str) -> None:
     """Creates user in the database"""
 
-    hashed_password = bcrypt.hashpw(user_password.encode('utf-8'), bcrypt.gensalt())
+    hashed_password = bcrypt.hashpw(user_password.encode("utf-8"), bcrypt.gensalt())
     insert_query = f"INSERT INTO users (email, password) VALUES (%s, %s);"
     insert_values = (user_email, hashed_password)
 
@@ -58,18 +58,18 @@ def authenticate_user(user_email: str, user_password: str) -> Optional[Dict[str,
         print("ERROR: Multiple users found")
         return None
 
-    if not bcrypt.checkpw(user_password.encode('utf-8'), user_hashes[0]['password_hash'].encode('utf-8')):
+    if not bcrypt.checkpw(user_password.encode("utf-8"), user_hashes[0]["password_hash"].encode("utf-8")):
         return Response("ERROR: Invalid password", status=401)
 
     return recipes
 
 
-@user.route('/user', methods=['POST'])
+@user.route("/user", methods=["POST"])
 def create_user() -> Response:
     """Handles all recipes for a given user"""
 
-    user_email = request.form.get('email')
-    user_password = request.form.get('password')
+    user_email = request.form.get("email")
+    user_password = request.form.get("password")
 
     if not user_email:
         return Response("ERROR: No user email provided", status=400)
@@ -82,12 +82,12 @@ def create_user() -> Response:
     return Response("User created successfully", status=200)
 
 
-@user.route('/user/login', methods=['POST'])
+@user.route("/user/login", methods=["POST"])
 def create_user() -> Response:
     """Handles all recipes for a given user"""
 
-    user_email = request.form.get('email')
-    user_password = request.form.get('password')
+    user_email = request.form.get("email")
+    user_password = request.form.get("password")
 
     if not user_email:
         return Response("ERROR: No user email provided", status=400)
@@ -98,6 +98,3 @@ def create_user() -> Response:
     create_user(user_email, user_password)
 
     return Response("User created successfully", status=200)
-
-
-

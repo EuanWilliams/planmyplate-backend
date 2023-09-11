@@ -17,8 +17,6 @@ def get_database_connection() -> mysql.connector.connection.MySQLConnection:
     DB_NAME = os.getenv("PMP_DATABASE_NAME")
     DB_PORT = os.getenv("PMP_DATABASE_PORT")
 
-    print("DB_HOST: ", DB_HOST, "DB_PASS: ", DB_PASS, "DB_USER: ", DB_USER, "DB_NAME: ", DB_NAME, "DB_PORT: ", DB_PORT)
-
     try:
         return mysql.connector.connect(host=DB_HOST, user=DB_USER, passwd=DB_PASS, db=DB_NAME, port=DB_PORT)
     except Exception as error:
